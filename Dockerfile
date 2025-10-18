@@ -18,7 +18,7 @@ RUN apt-get update \
     --no-install-recommends
 
 RUN docker-php-source extract
-RUN docker-php-ext-install pdo
+RUN docker-php-ext-install pdo pdo_mysql
 RUN pecl install zip \
     && docker-php-ext-enable zip
 
@@ -37,10 +37,7 @@ COPY docker/.env.local /var/www/.env.local
 WORKDIR /var/www
 
 RUN composer install --optimize-autoloader \
-    && php bin/console doctrine:database:create \
-    && php bin/console doctrine:schema:update --force \
-    && chown -R www-data:www-data var var
-
+    && chown -R www-data:www-data var
 
 RUN mkdir -p public/uploads/1 \
     && mkdir -p public/uploads/2 \

@@ -1,73 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}My vulnerable profile{% endblock %}
+{% block title %}Mon profil{% endblock %}
 
 {% block body %}
 
-    {# Flat design profile page #}
-    <div class="profile">
-        <div class="profile-header">
-            <div class="profile-header-cover"></div>
-            <div class="profile-header-content">
-                <div class="profile-header-img">
-                    <img src="{{ profile_picture }}" alt="profile picture">
-                </div>
-                <div class="profile-header-info">
-                    <h4 class="m-t-10 m-b-5">John Doe</h4>
-                    <p class="m-b-10">Web Developer</p>
-                    <div id="error" class="error-message hidden">An error occurred</div>
-                </div>
-                <form id="upload-form" class="profile-header-form" method="post" enctype="multipart/form-data" action="{{ path(upload_route) }}">
-                    <input type="file" name="file" id="profile_picture" class="inputfile" required>
-                    <label for="profile_picture">Choose a file</label>
-                    <button type="submit" id="upload-button" class="btn btn-sm">Upload new picture</button>
-                </form>
+<div class="profile">
+    <div class="profile-header">
+        <div class="profile-header-cover"></div>
+        <div class="profile-header-content">
+
+            <div class="profile-header-img">
+                <img src="{{ profile_picture }}" alt="profile picture">
             </div>
-        </div>
-        <div class="profile-body">
-            <div class="profile-body-content">
-                <div class="profile-body-content-title">
-                    <h4>About me</h4>
-                </div>
-                <div class="profile-body-content-description">
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ac nunc nec dui volutpat
-                        ultrices
-                        nec nec nisi. Nullam nec metus nec nisi ultrices aliquam. Nullam nec metus nec nisi
-                    </p>
-                </div>
+            
+            <div class="profile-header-info">
+                <h4 class="m-t-10 m-b-5">Michael Myers</h4>
+                <p class="m-b-10">Informaticien</p>
+                <div id="error" class="error-message hidden">Une erreur est survenue</div>
             </div>
-            <div class="profile-body-content">
-                <div class="profile-body-content-title">
-                    <h4>My skills</h4>
+
+            <form id="upload-form" class="profile-header-form" method="post" enctype="multipart/form-data" action="{{ path(upload_route) }}">
+                <input type="file" name="file" id="profile_picture" class="inputfile" required>
+                <label for="profile_picture">Choisissez une image</label>
+                <button type="submit" id="upload-button" class="btn btn-sm">Téléverser une nouvelle image</button>
+            </form>
+            {# Flash messages #}
+            {% for message in app.flashes('error') %}
+                <div class="alert">
+                    {{ message }}
+                    <button class="close-btn" onclick="this.parentElement.style.display='none'">&times;</button>
                 </div>
-                <div class="profile-body-content-description">
-                        <ul>
-                            <li>HTML</li>
-                            <li>CSS</li>
-                            <li>JavaScript</li>
-                            <li>PHP</li>
-                        </ul>
-                </div>
-            </div>
-            <div class="profile-body-content">
-                <div class="profile-body-content-title">
-                    <h4>My projects</h4>
-                </div>
-                <div class="profile-body-content-description">
-                        <ul>
-                            <li>Project 1</li>
-                            <li>Project 2</li>
-                            <li>Project 3</li>
-                        </ul>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
 
-    {# Flash messages #}
-    {% for message in app.flashes('error') %}
-        <div class="alert alert-danger">{{ message }}</div>
-    {% endfor %}
+<div class="profile-body">
+    <div class="content-panel about-me">
+      <h4 class="content-title">À propos de moi 💬</h4>
+      <p>Passionné par la cybersécurité et le développement web, j’aime créer des applications modernes et sécurisées.</p>
+    </div>
+
+    <div class="content-panel my-projects">
+      <h4 class="content-title">Mes projets 🚀</h4>
+      <ul class="projects-list">
+        <li>Portfolio V3</li>
+        <li>E-commerce Backend</li>
+        <li>NodeJS Microservice</li>
+      </ul>
+    </div>
+
+    <div class="content-panel my-skills-card">
+      <h4 class="content-title">Mes compétences 🛠️</h4>
+      <div class="skill-tags-container">
+        <span class="skill-tag">HTML</span>
+        <span class="skill-tag">CSS</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">PHP</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">Symfony</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
 
 {% endblock %}

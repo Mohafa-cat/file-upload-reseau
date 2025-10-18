@@ -21,9 +21,7 @@ class UploadController extends AbstractController
     }
 
     /**
-     * Vulnerable example 4: Weak extension check
-     *
-     * Check that the file extension is present in the path.
+     * Vérifiez que l'extension du fichier est présente.
      */
 
     #[Route('/upload', name: 'app_upload', methods: ['POST'])]
@@ -46,7 +44,7 @@ class UploadController extends AbstractController
         }
 
         if (!$validExtension) {
-            $this->addFlash('error', 'Only images are allowed');
+            $this->addFlash('error', 'Seulement les images sont autorisées(.jpg, .jpeg, .png, .gif)');
             return $this->redirectToRoute('app_profile');
         }
 
