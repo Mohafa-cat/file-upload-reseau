@@ -70,36 +70,42 @@ Vous devez avoir installé sur votre machine :
 
    Lors de cet exercice vous aurez besoin de ces 2 scripts malveillants à compléter légèrement plus tard :
 
-   **Script n°1 :**
-   `
-   `
+[Script (web shell) n°1](https://github.com/Mohafa-cat/file-upload-reseau/blob/main/scripts/web_shell.php)
 
-   **Script n°2 :**
-   `
-   `
+[Script (fetch_all) n°2](https://github.com/Mohafa-cat/file-upload-reseau/blob/main/scripts/fetch_all.php)
 
 ---
 
-
-# 🎯 Exercice : Exploitation de la Vulnérabilité (WebShell)
+# Exercice : Exploitation de la Vulnérabilité 
 
 Ce chapitre détaille les étapes pour exploiter la vulnérabilité de téléchargement de fichiers non sécurisé afin d'accéder aux informations sensibles du projet, y compris les identifiants de la base de données.
 
-## 1. Upload de notre WebShell camouflé
+## 1. Upload de notre WebShell 
 
 ### Qu'est-ce qu'un WebShell ?
 
-Un WebShell est un script (souvent malveillant) installé sur un serveur web qui permet d’exécuter à distance des commandes et de contrôler le système via une interface HTTP.
+Un WebShell est un script (souvent malveillant) installé sur un serveur web qui permet d’exécuter à distance des commandes et de contrôler le système via une interface web.
 
-Vous devez uploader sur le site le **script n°1** (contenant le WebShell). Ce script doit **simuler une photo de profil aux yeux du site**.
+Vous devez uploader sur le site le **[Script (web shell) n°1](https://github.com/Mohafa-cat/file-upload-reseau/blob/main/scripts/web_shell.php)** (contenant le WebShell). Ce script doit **simuler une photo de profil aux yeux du site**.
 
 Étant donné que le site n'accepte que les extensions habituelles pour une photo de profil (`.jpg`, `.png`, `.gif`), vous devrez **camoufler** ce script pour permettre son upload.
 
+> Le site vérifie le type du fichier seulement en regardant l'extension du nom. Renommez votre script en ajoutant l'extension attendue pour le faire passer.
+
+**Indice :**
+
+> Le serveur regarde juste si le nom contient une extension, pas si le fichier se termine réellement par cette extension.
+
+Si le serveur ne renvoie aucun message d’erreur, le téléversement a réussi. Bien joué !
+
 ## 2. Accès au WebShell
 
-Après avoir réussi l'upload de votre script camouflé, le WebShell est désormais intégré au projet.
+Après avoir téléversé votre script déguisé le webshell est désormais présent sur le serveur. Pour l’utiliser il faut y accéder via une URL.
 
 Pour trouver son lien d'accès :
+
+<img width="572" height="237" alt="image" src="https://github.com/user-attachments/assets/7f66bda4-f6bf-45d5-962b-50e3a8d5ff3b" />
+
 1.  **Inspectez la balise de "l'image"** que vous venez d'uploader via les outils de développement de votre navigateur.
 2.  Accédez au lien de votre WebShell via l'attribut `src` de cette balise.
 
@@ -114,21 +120,25 @@ Le fichier `.env` contient les variables d’environnement d’un projet (identi
 
 Pour visualiser les fichiers cachés (dont le `.env`), n'oubliez pas d'utiliser l'option adéquate dans votre commande : **`-a`** (par exemple, avec la commande `ls`).
 
+**Indice :**
+
+> Sur beaucoup de serveurs Linux les fichiers web se trouvent dans /var/www/.
+
 ## 4. Compléter le script n°2
 
-Après avoir récupéré les informations sensibles du fichier `.env`, vous allez compléter le **script n°2**. Ce script final permettra de se connecter directement à la base de données et de la récupérer.
+Après avoir récupéré les informations sensibles du fichier `.env`, vous allez compléter le **[Script (fetch_all) n°2](https://github.com/Mohafa-cat/file-upload-reseau/blob/main/scripts/fetch_all.php)**. Ce script final permettra de se connecter directement à la base de données et de la récupérer.
 
 Vous devez insérer les informations récupérées précédemment dans le script :
-* Le nom d'utilisateur (`user`) de la Base de Données.
-* Le mot de passe (`password`) de la Base de Données.
-* Le port (`port`) de la Base de Données.
+* Le port (`DB_PORT`) de la Base de Données.
+* Le nom d'utilisateur (`MYSQL_USER`) de la Base de Données.
+* Le mot de passe (`MYSQL_PASSWORD`) de la Base de Données.
+* La base de donnée (`MYSQL_DATABASE`).
 
 ## 5. Récupération de la Base de Données
 
-Pour finaliser l'exploitation, vous devez **uploader votre script final (script n°2)** de la même manière que vous l'avez fait pour le premier script et enfin
+Pour finaliser l'exploitation, vous devez uploader votre script final **[Script (fetch_all) n°2](https://github.com/Mohafa-cat/file-upload-reseau/blob/main/scripts/fetch_all.php)** de la même manière que vous l'avez fait pour le premier script et enfin
 
 Une fois le script final exécuté via l'URL d'upload, la base de données sera à récupérer sur la balise de l'image comme pour le premier script.
----
 
 ## Arrêt du projet
 
@@ -150,3 +160,4 @@ docker compose down -v
 Lien du dépôt : [https://github.com/Mohafa-cat/file-upload-reseau/](https://github.com/Mohafa-cat/file-upload-reseau/)
 
 *Remarque : ce projet est conçu à des fins éducatives pour sensibiliser aux risques liés au téléversement de fichiers. N'utilisez pas ces techniques en dehors d'un environnement contrôlé et avec l'autorisation explicite des propriétaires des systèmes ciblés.*
+
